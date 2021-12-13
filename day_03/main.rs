@@ -11,20 +11,32 @@ struct Point {
 fn main() {
     let stdin = io::stdin();
     for line in stdin.lock().lines() {
-        let mut position = Point {x: 0, y: 0};
+        let mut santa_position = Point {x: 0, y: 0};
+        let mut robot_position = Point {x: 0, y: 0};
         let mut visits = HashMap::new();
 
-        *visits.entry(position).or_insert(0) += 1;
+        *visits.entry(santa_position).or_insert(0) += 1;
 
-        for c in line.unwrap().chars() {
-            match c {
-                '>' => position.x += 1,
-                'v' => position.y -= 1,
-                '<' => position.x -= 1,
-                '^' => position.y += 1,
-                _ => {}
-            };
-            *visits.entry(position).or_insert(0) += 1
+        for (i, c) in line.unwrap().chars().enumerate() {
+            if i%2 == 0 {
+                match c {
+                    '>' => santa_position.x += 1,
+                    'v' => santa_position.y -= 1,
+                    '<' => santa_position.x -= 1,
+                    '^' => santa_position.y += 1,
+                    _ => {}
+                };
+                *visits.entry(santa_position).or_insert(0) += 1
+            } else {
+                match c {
+                    '>' => robot_position.x += 1,
+                    'v' => robot_position.y -= 1,
+                    '<' => robot_position.x -= 1,
+                    '^' => robot_position.y += 1,
+                    _ => {}
+                };
+                *visits.entry(robot_position).or_insert(0) += 1
+            }
         }
 
         println!("{:?}", visits.len());
