@@ -10,8 +10,10 @@ fn main() {
         let digest = md5::compute(input.as_bytes());
 
         if digest[0] == 0 && digest[1] == 0 && digest[2] < 16 {
-            println!("{}", index);
-            return;
+            println!("{:?} {}", digest, index);
+            if digest[2] == 0 {
+                return;
+            }
         }
     }
 }
